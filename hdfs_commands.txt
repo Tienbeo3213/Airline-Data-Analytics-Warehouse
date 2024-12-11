@@ -1,0 +1,11 @@
+mkdir -p airline_source_data
+mkdir -p airline_source_data/airports
+mkdir -p airline_source_data/carriers
+mkdir -p airline_source_data/plane-data
+mkdir -p airline_source_data/detailed_data
+hadoop fs -mkdir -p /airline_data
+hadoop fs -mkdir -p /airline_data/airports
+hadoop fs -mkdir -p /airline_data/carriers
+hadoop fs -mkdir -p /airline_data/plane-data
+hadoop fs -mkdir -p /airline_data/detailed_data
+hadoop fs -mkdir -p /airline_data/archival
