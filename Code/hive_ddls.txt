@@ -1,0 +1,242 @@
+hive scripts
+
+create database airline_db_raw;
+create database airline_db_cur;
+
+use airline_db_raw;
+
+CREATE EXTERNAL TABLE `airports`(
+  `iata` string COMMENT 'from deserializer',
+  `airport` string COMMENT 'from deserializer',
+  `city` string COMMENT 'from deserializer',
+  `state` string COMMENT 'from deserializer',
+  `country` string COMMENT 'from deserializer',
+  `lat` string COMMENT 'from deserializer',
+  `longitude` string COMMENT 'from deserializer')
+ROW FORMAT SERDE
+  'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+WITH SERDEPROPERTIES (
+  'escapeChar'='\\',
+  'quoteChar'='\"',
+  'separatorChar'=',',
+  'skip.header.line.count'='1')
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.mapred.TextInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat'
+LOCATION
+  'hdfs://localhost:9000/airline_data/airports';
+
+
+CREATE EXTERNAL TABLE `carriers`(
+  `code` string COMMENT 'from deserializer',
+  `description` string COMMENT 'from deserializer')
+ROW FORMAT SERDE
+  'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+WITH SERDEPROPERTIES (
+  'escapeChar'='\\',
+  'quoteChar'='\"',
+  'separatorChar'=',',
+  'skip.header.line.count'='1')
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.mapred.TextInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat'
+LOCATION
+  'hdfs://localhost:9000/airline_data/carriers';
+  
+CREATE EXTERNAL TABLE `detailed_data`(
+  `year` string COMMENT 'from deserializer',
+  `month` string COMMENT 'from deserializer',
+  `dayofmonth` string COMMENT 'from deserializer',
+  `dayofweek` string COMMENT 'from deserializer',
+  `deptime` string COMMENT 'from deserializer',
+  `crsdeptime` string COMMENT 'from deserializer',
+  `arrtime` string COMMENT 'from deserializer',
+  `crsarrtime` string COMMENT 'from deserializer',
+  `uniquecarrier` string COMMENT 'from deserializer',
+  `flightnum` string COMMENT 'from deserializer',
+  `tailnum` string COMMENT 'from deserializer',
+  `actualelapsedtime` string COMMENT 'from deserializer',
+  `crselapsedtime` string COMMENT 'from deserializer',
+  `airtime` string COMMENT 'from deserializer',
+  `arrdelay` string COMMENT 'from deserializer',
+  `depdelay` string COMMENT 'from deserializer',
+  `origin` string COMMENT 'from deserializer',
+  `dest` string COMMENT 'from deserializer',
+  `distance` string COMMENT 'from deserializer',
+  `taxiin` string COMMENT 'from deserializer',
+  `taxiout` string COMMENT 'from deserializer',
+  `cancelled` string COMMENT 'from deserializer',
+  `cancellationcode` string COMMENT 'from deserializer',
+  `diverted` string COMMENT 'from deserializer',
+  `carrierdelay` string COMMENT 'from deserializer',
+  `weatherdelay` string COMMENT 'from deserializer',
+  `nasdelay` string COMMENT 'from deserializer',
+  `securitydelay` string COMMENT 'from deserializer',
+  `lateaircraftdelay` string COMMENT 'from deserializer')
+ROW FORMAT SERDE
+  'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+WITH SERDEPROPERTIES (
+  'escapeChar'='\\',
+  'quoteChar'='\"',
+  'separatorChar'=',',
+  'skip.header.line.count'='1')
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.mapred.TextInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat'
+LOCATION
+  'hdfs://localhost:9000/airline_data/detailed_data';
+  
+CREATE EXTERNAL TABLE `plane_data`(
+  `tailnum` string COMMENT 'from deserializer',
+  `type` string COMMENT 'from deserializer',
+  `manufacturer` string COMMENT 'from deserializer',
+  `issue_date` string COMMENT 'from deserializer',
+  `model` string COMMENT 'from deserializer',
+  `status` string COMMENT 'from deserializer',
+  `aircraft_type` string COMMENT 'from deserializer',
+  `engine_type` string COMMENT 'from deserializer',
+  `year` string COMMENT 'from deserializer')
+ROW FORMAT SERDE
+  'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+WITH SERDEPROPERTIES (
+  'escapeChar'='\\',
+  'quoteChar'='\"',
+  'separatorChar'=',',
+  'skip.header.line.count'='1')
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.mapred.TextInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat'
+LOCATION
+  'hdfs://localhost:9000/airline_data/plane-data';
+  
+
+  
+use airline_db_cur;
+  
+CREATE EXTERNAL TABLE `airports`(
+  `iata` string,
+  `airport` string,
+  `city` string,
+  `state` string,
+  `country` string,
+  `lat` string,
+  `longitude` string,
+  `load_dt` string,
+  `load_dtm` string)
+ROW FORMAT SERDE
+  'org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe'
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat'
+LOCATION
+  'hdfs://localhost:9000/airline_data/cur/airports';
+
+CREATE EXTERNAL TABLE `carriers`(
+  `code` string,
+  `description` string,
+  `load_dt` string,
+  `load_dtm` string)
+ROW FORMAT SERDE
+  'org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe'
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat'
+LOCATION
+  'hdfs://localhost:9000/airline_data/cur/carriers';
+
+CREATE EXTERNAL TABLE `detailed_data`(
+  `month` string,
+  `dayofmonth` string,
+  `dayofweek` string,
+  `deptime` string,
+  `crsdeptime` string,
+  `arrtime` string,
+  `crsarrtime` string,
+  `uniquecarrier` string,
+  `flightnum` string,
+  `tailnum` string,
+  `actualelapsedtime` string,
+  `crselapsedtime` string,
+  `airtime` string,
+  `arrdelay` string,
+  `depdelay` string,
+  `origin` string,
+  `dest` string,
+  `distance` string,
+  `taxiin` string,
+  `taxiout` string,
+  `cancelled` string,
+  `cancellationcode` string,
+  `diverted` string,
+  `carrierdelay` string,
+  `weatherdelay` string,
+  `nasdelay` string,
+  `securitydelay` string,
+  `lateaircraftdelay` string,
+  `load_dt` string,
+  `load_dtm` string)
+PARTITIONED BY (
+  `year` string)
+ROW FORMAT SERDE
+  'org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe'
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat'
+LOCATION
+  'hdfs://localhost:9000/airline_data/cur/detailed_data';
+
+CREATE EXTERNAL TABLE `flight_facts`(
+  `month` string,
+  `flightnum` string,
+  `tailnum` string,
+  `uniquecarrier` string,
+  `avg_arr_delay` double,
+  `avg_dep_delay` double,
+  `avg_distance` double,
+  `max_distance` int,
+  `tot_cancelled_flights` bigint,
+  `tot_diverted_flights` bigint,
+  `airline_name` string,
+  `manufacturer` string,
+  `punctuality_code` string,
+  `load_dt` string,
+  `load_dtm` string)
+PARTITIONED BY (
+  `year` string)
+ROW FORMAT SERDE
+  'org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe'
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat'
+LOCATION
+  'hdfs://localhost:9000/airline_data/cur/flight_facts';
+
+  
+CREATE EXTERNAL TABLE `plane_data`(
+  `tailnum` string,
+  `type` string,
+  `manufacturer` string,
+  `issue_date` string,
+  `model` string,
+  `status` string,
+  `aircraft_type` string,
+  `engine_type` string,
+  `year` string,
+  `load_dt` string,
+  `load_dtm` string)
+ROW FORMAT SERDE
+  'org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe'
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat'
+LOCATION
+  'hdfs://localhost:9000/airline_data/cur/plane_data';  
