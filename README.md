@@ -3,6 +3,9 @@
 Project Overview
 This project explores the potential of Big Data technologies to analyze airline data effectively. The aim is to provide actionable insights into flight performance, delays, and cancellations while enhancing customer experience and operational efficiency in the aviation sector.
 
+## Pipeline
+![image](https://github.com/user-attachments/assets/333c1ad6-2728-483e-bc36-8f780e3c2f10)
+
 ## Features
 
 - Data Management: Use of Hadoop HDFS for distributed storage and Hive for structured querying.
@@ -45,6 +48,7 @@ Data Processing:
 - Use PySpark scripts for ETL processes:
  -  Aggregating flight performance metrics.
  -  Cleaning and transforming raw data.
+
 
 Data Analysis:
 - Use Hive queries to generate insights about delays, cancellations, and flight performance.
