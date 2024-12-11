@@ -1,5 +1,5 @@
 # Airline-Data-Analytics-Warehouse using Hadoop, Hive, Spark and Tableau
- Airline data analysis using Hadoop, Hive, Spark, and Tableau to optimize performance, predict delays, and enhance passenger experience.
+  Airline data analysis using Hadoop, Hive, Spark, and Tableau to optimize performance, predict delays, and enhance passenger experience.
 Project Overview
 This project explores the potential of Big Data technologies to analyze airline data effectively. The aim is to provide actionable insights into flight performance, delays, and cancellations while enhancing customer experience and operational efficiency in the aviation sector.
 
@@ -14,7 +14,7 @@ This project explores the potential of Big Data technologies to analyze airline 
 - Pipeline Workflow: Automated steps for ingestion, transformation, and querying of datasets.
 
 ## Dataset
-- The project uses publicly available datasets related to airports, airlines, and flights:
+The project uses publicly available datasets related to airports, airlines, and flights:
 
 + airports.csv - Information about airports (location, IATA codes, etc.).
 
@@ -35,14 +35,19 @@ This project explores the potential of Big Data technologies to analyze airline 
 
 ## Project Workflow
 
-- Data Ingestion: Use hdfs_put_data.sh to upload datasets into HDFS.
+Data Ingestion: 
+- Use hdfs_put_data.sh to upload datasets into HDFS.
 
-- Database Creation: Create databases in Hive for raw and processed data.
+Database Creation: 
+ - Create databases in Hive for raw and processed data.
 
-- Data Processing: Cleaning and transforming raw data.
+Data Processing:
+- Use PySpark scripts for ETL processes:
+ -  Aggregating flight performance metrics.
+ -  Cleaning and transforming raw data.
 
-- Use PySpark scripts for ETL processes: Aggregating flight performance metrics.
+Data Analysis:
+- Use Hive queries to generate insights about delays, cancellations, and flight performance.
 
-- Data Analysis: Use Hive queries to generate insights about delays, cancellations, and flight performance.
-
-- Visualization: Import processed data into Tableau to create interactive dashboards.
+Visualization:
+- Import processed data into Tableau to create interactive dashboards.
